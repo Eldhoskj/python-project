@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>EMPLOYEE PROMOTION PREDICTION</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="card" style="width:100%; height:100%; margin-top:50px">
+          <div class="card-reader" style="text-align:center">
+            <h1>Welcome To Employee Promotion Predictor</h1>
+          </div>
+          <div class="card-body">
+            <form method="post" action="/some_url" accept-charset="utf-8">
+
+                <div class="row">
+
+                    <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>Department:</b></label>
+                      <select class="selectpicker form-control" id="department" name="department" required="1">
+                          {% for department in department%}
+                               <option value="{{ department }}">{{ department }}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>education:</b></label>
+                      <select class="selectpicker form-control" id="education" name="education" required="1">
+                          {% for education in education%}
+                               <option value="{{ education }}">{{ education }}</option>
+                          {% endfor %}
+                      </select>
+                      </div>
+                      </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>Gender:</b></label>
+                      <select class="selectpicker form-control" id="Gender" name="Gender" required="1">
+                          {% for gender in gender%}
+                               <option value="{{ gender }}">{{ gender }}</option>
+                          {% endfor %}
+
+                      </select>
+                    </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>No of trainings:</b></label>
+                      <select class="selectpicker form-control" id="Gender" name="Gender" required="1">
+                          {% for no_of_trainings in no_of_trainings%}
+                               <option value="{{ no_of_trainings }}">{{ no_of_trainings }}</option>
+                          {% endfor %}
+
+                      </select>
+                    </div>
+                       <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>Enter Your Age:</b></label>
+                      <input type="text" class="form-control" id="Enter Your Age" name="Enter Your Age" placeholder="Enter Your Age">
+                     </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>previous year rating</b></label>
+                      <select class="selectpicker form-control" id="previous year rating" name="previous year rating" required="1">
+                          {% for previous_year_rating in previous_year_rating%}
+                               <option value="{{ previous_year_rating }}">{{ previous_year_rating }}</option>
+                          {% endfor %}
+
+                      </select>
+                    </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>Length of Service:</b></label>
+                      <input type="text" class="form-control" id="Enter Your Length of Service" name="Enter Your Length of Service" placeholder="Enter Your Length of Service">
+                     </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>KPI's Met>80%:</b></label>
+                      <select class="selectpicker form-control" id="KPI's Met>80%" name="KPI's Met>80%",required="1">
+                        <option value=1>Yes</option>
+                        <option value=0>No</option>
+                      </select>
+                    </div>
+                      <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>No Of Awards won:</b></label>
+                      <input type="text" class="form-control" id="no of awards won" name="no of awards won" placeholder="no of awards won">
+                     </div>
+                     <div class="'col-md-6 form-group" style="text-align:center">
+                      <label><b>Avg Training score:</b></label>
+                      <input type="text" class="form-control" id="Avg Training score" name="Avg Training score" placeholder="Avg Training score">
+                     </div>
+
+                    <div class="col-md-12 form-group" style="text-align:center">
+                        <label><b>  </b></label>
+                            <button class="btn btn-primary form-control" onclick="send_data()">Predict promotion</button>
+                    </div>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-12" style="text-align:center">
+                      <h3><span id ="prediction"></span></h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <script>
+    function form_handler(event) {
+        event.preventDefault(); // Don't submit the form normally
+    }
+    function send_data()
+    {
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+
+        var xhr= new XMLHttpRequest();
+
+        xhr.open('POST','/predicts',true);
+        document.getElementById('prediction').innerHTML="Wait! Predicting.....";
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                document.getElementById('prediction').innerHTML="Prediction:" + xhr.responseText;
+
+            }
+        };
+
+        xhr.onload= function(){};
+
+        xhr.send(fd);
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+  </body>
